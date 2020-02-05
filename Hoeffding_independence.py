@@ -6,6 +6,17 @@ def primer(X):
     X_matrix = X*np.ones([n,n])
     primer_x = C_func(X_matrix.T - X_matrix)
     return primer_x
+def Hoeffding_Dn(X, Y):
+    n = len(X)
+    primer_x = primer(X)
+    a_alpha = np.sum(primer_x, 1) - 1
+    primer_y = primer(Y)
+    b_alpha = np.sum(primer_y, 1) - 1
+    c_alpha = np.sum(primer_x * primer_y, 1) - 1
+    A = np.sum(a_alpha*(a_alpha-1)*b_alpha*(b_alpha-1))
+    B = np.sum((a_alpha-1)*(b_alpha-1)*c_alpha)
+    C = np.sum(c_alpha*(c_alpha-1))
+    return (A - 2*(n-2)*B + (n-2)*(n-3)*C)/(n*(n-1)*(n-2)*(n-3)*(n-4))
 def power(x, alpha):
     return np.exp(alpha*np.log(x))
 def generalized_Weibull_params(n):
@@ -36,17 +47,6 @@ def asymptotic_p_value_Hoeffding(x, n):
     F = Fn(x)
     p_value = 2*min(F, 1-F)
     return p_value
-def Hoeffding_Dn(X, Y):
-    n = len(X)
-    primer_x = primer(X)
-    a_alpha = np.sum(primer_x, 1) - 1
-    primer_y = primer(Y)
-    b_alpha = np.sum(primer_y, 1) - 1
-    c_alpha = np.sum(primer_x * primer_y, 1) - 1
-    A = np.sum(a_alpha*(a_alpha-1)*b_alpha*(b_alpha-1))
-    B = np.sum((a_alpha-1)*(b_alpha-1)*c_alpha)
-    C = np.sum(c_alpha*(c_alpha-1))
-    return (A - 2*(n-2)*B + (n-2)*(n-3)*C)/(n*(n-1)*(n-2)*(n-3)*(n-4))
 def Hoeffding_independece_test(option='test'):
     if option == 'Dn':
         return Hoeffding_Dn
