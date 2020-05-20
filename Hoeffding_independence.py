@@ -61,14 +61,11 @@ def asymptotic_p_value_Hoeffding(x, n):
     p_value = 2*min(F, 1-F)
     return p_value
 
-# Option 'nDn + 1/36' returns the very asymptotic p-value suggested by the original paper.
 # Option 'p value' returns the asymptotic p-value mentioned above.
 # The default option returns both the test statistic and asymptotic p-value.
 def Hoeffding_independece_test(option='test'):
     if option == 'Dn':
         return Hoeffding_Dn
-    if option == 'nDn + 1/36':
-        return lambda X, Y: len(X)*Hoeffding_Dn(X, Y) + 1/36
     if option == 'p value':
         return lambda X, Y: asymptotic_p_value_Hoeffding(len(X)*Hoeffding_Dn(X, Y), len(X))
     else:
