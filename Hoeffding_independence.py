@@ -9,13 +9,15 @@ def primer(X):
     return primer_x
 
 # The very basic Hoeffding's independence test.
-def Hoeffding_Dn(X, Y):
-    n = len(X)
-    primer_x = primer(X)
-    a_alpha = np.sum(primer_x, 1) - 1
-    primer_y = primer(Y)
-    b_alpha = np.sum(primer_y, 1) - 1
-    c_alpha = np.sum(primer_x * primer_y, 1) - 1
+def Hoeffding_Dn(array_1, array_2):
+    n = len(array_1)
+    if array_1.std() == 0 or array_2.std() == 0:
+        return 0
+    primer_1 = primer(array_1)
+    a_alpha = np.sum(primer_1, 1) - 1
+    primer_2 = primer(array_2)
+    b_alpha = np.sum(primer_2, 1) - 1
+    c_alpha = np.sum(primer_1 * primer_2, 1) - 1
     A = np.sum(a_alpha*(a_alpha-1)*b_alpha*(b_alpha-1))
     B = np.sum((a_alpha-1)*(b_alpha-1)*c_alpha)
     C = np.sum(c_alpha*(c_alpha-1))
@@ -62,7 +64,7 @@ def asymptotic_p_value_Hoeffding(x, n):
     return p_value
 
 # Option 'p value' returns the asymptotic p-value mentioned above.
-# The default option returns both the test statistic and asymptotic p-value.
+# The default option 'test' returns both the test statistic and asymptotic p-value.
 def Hoeffding_independece_test(option='test'):
     if option == 'Dn':
         return Hoeffding_Dn
@@ -74,3 +76,15 @@ def Hoeffding_independece_test(option='test'):
             p_value = asymptotic_p_value_Hoeffding(len(X) * Dn, len(X))
             return Dn, p_value
         return test
+
+# Calculates Dn and the asymptotic p-value between each feature in X and y.
+def Dn_and_p(X, y):
+    test = Hoeffding_independece_test()
+    n, m = X.shape
+    Dns = np.zeros(m)
+    p_values = np.zeros(m)
+    for i in range(m):
+        Dn, p_value = test(X[:, i], y)
+        Dns[i] = Dn
+        p_values[i] = p_value
+    return Dns, p_values
