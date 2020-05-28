@@ -31,7 +31,7 @@ def dCor_n_wrapped(X, y):
     B = primer_dVar(y, True, w)
     d = lambda P, Q: np.sqrt(np.sum(P*Q))
     dVar_y = d(B,B)
-    if y.std() != 0:
+    if y.std() == 0:
         return results
     for i in range(m):
         array = X[:, i]
