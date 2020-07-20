@@ -1,8 +1,12 @@
 from sklearn.metrics import pairwise_distances
 import numpy as np
 
-# Calculates distance variance of an array. See dCor_n for details regarding notation.
 def primer_dVar(array, reshape_array, w):
+
+    """
+    Calculates distance variance of an array. See dCor_n for details regarding notation.
+    """
+
     if reshape_array:
         array = array.reshape((-1,1))
     A = pairwise_distances(array)
@@ -11,9 +15,13 @@ def primer_dVar(array, reshape_array, w):
     A += np.add.outer(y,y)
     return A
 
-# Distance correlation between two arrays. 
-# If the dimension of array_1 is larger than one, set reshape_1=False.
-def dCor_n(array_1, array_2, reshape_1=True, reshape_2=True):
+# Sample distance correlation between two arrays.
+def dCor_n(array_1: np.ndarray, array_2: np.ndarray, reshape_1=True, reshape_2=True) -> np.float:
+
+    """
+    If the dimension of array_1 is larger than one, set reshape_1=False.
+    """
+
     if array_1.std() == 0 or array_2.std() == 0:
         return 0
     n = len(array_1)
@@ -23,8 +31,13 @@ def dCor_n(array_1, array_2, reshape_1=True, reshape_2=True):
     d = lambda P, Q: np.sqrt(np.sum(P*Q))
     return d(A,B)/np.sqrt((d(A,A)*d(B,B)))
 
-# Calculates the distance correlation between each feature in X and y.
-def dCor_n_wrapped(X, y):
+def dCor_n_wrapped(X: np.ndarray, y: np.ndarray) -> np.ndarray:
+
+    """
+    Calculates the distance correlation between each feature in X and y.
+    This version is much quicker than simply calling dCor_n multiple times.
+    """
+
     n, m = X.shape
     results = np.zeros(m)
     w = np.ones(n)/n
