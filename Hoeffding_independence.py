@@ -96,7 +96,7 @@ def Hoeffding_independece_test(option='test'):
 # Calculates Dn and the asymptotic p-value between each feature in X and y.
 def Dn_and_p(X, y):
     test = Hoeffding_independece_test()
-    n, m = X.shape
+    _, m = X.shape
     Dns = np.zeros(m)
     p_values = np.zeros(m)
     for i in range(m):
