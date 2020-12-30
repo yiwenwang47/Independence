@@ -6,7 +6,7 @@ A very naive implementation of partial correlation between Xi and y, while contr
 
 ## Hoeffding's independence test
 
-The calculation of Hoeffding's independence test statistic is written according to: Hoeffding, Wassily. "A non-parametric test of independence." The annals of mathematical statistics (1948): 546-557. <https://www.jstor.org/stable/pdf/2236021.pdf>
+Calculated following the definition in: Hoeffding, Wassily. "A non-parametric test of independence." The annals of mathematical statistics (1948): 546-557. <https://www.jstor.org/stable/pdf/2236021.pdf>
 
 The asymptotic p values are calculated according to: Wilding, Gregory E., and Govind S. Mudholkar. "Empirical approximations for Hoeffding’s test of bivariate independence using two Weibull extensions." Statistical Methodology 5.2 (2008): 160-170. <https://doi.org/10.1016/j.stamet.2007.07.002>
 
