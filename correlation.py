@@ -13,7 +13,11 @@ def multi_correlation(X: np.ndarray, y: np.ndarray) -> np.ndarray:
     X = X - (X.mean(axis=0).reshape((-1,1)) * np.ones(X.shape[0])).transpose()
     y = (y - y.mean()).reshape((-1,1)) * np.ones(X.shape[1])
     num = (X*y).mean(axis=0)
-    return num/denom
+    product = np.zeros(denom.shape)
+    product[np.where(denom==0)] = 0
+    ind = np.where(denom!=0)
+    product[ind] = num[ind]/denom[ind]
+    return product
 
 # Partial correlation test based on Pearson's correlation.
 def partial_correlation(X: np.ndarray, i: int, y: np.ndarray) -> np.float:
